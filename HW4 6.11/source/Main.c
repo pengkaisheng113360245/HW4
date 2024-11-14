@@ -1,56 +1,48 @@
 #include <stdio.h>
 
-#define SIZE 10
-
-void bubbleSort(int array[], int size);
-
-int main(void)
-{
-    int a[SIZE] = { 34, 23, 12, 45, 9, 1, 24, 56, 78, 2 };
-    int i;
-
-    printf("Data items in original order\n");
-    for (i = 0; i < SIZE; i++)
-    {
-        printf("%4d", a[i]);
-    }
-
-    bubbleSort(a, SIZE);
-
-    printf("\nData items in ascending order\n");
-    for (i = 0; i < SIZE; i++)
-    {
-        printf("%4d", a[i]);
-    }
-
-    return 0;
-}
-
-void bubbleSort(int array[], int size)
-{
-    int pass, i, hold;
+void optimizedBubbleSort(int arr[], int n) {
+    int i, j;
     int swapped;
 
-    for (pass = 1; pass < size; pass++)
-    {
-        swapped = 0;  // 用於檢查是否有交換發生
+    for (i = 0; i < n - 1; i++) {
+        swapped = 0; // 初始化 swap 檢查變數
 
-        // 內層迴圈逐步減少比較次數
-        for (i = 0; i < size - pass; i++)
-        {
-            if (array[i] > array[i + 1])
-            {
-                hold = array[i];
-                array[i] = array[i + 1];
-                array[i + 1] = hold;
-                swapped = 1;  // 標記已發生交換
+        // 每次迭代，最大元素會移到最後，所以每次迭代比較次數可以減少
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // 交換 arr[j] 和 arr[j+1]
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+
+                swapped = 1; // 若有交換，更新 swapped 為 1
             }
         }
 
-        // 如果在某一輪中沒有發生任何交換，則排序完成
-        if (!swapped)
-        {
+        // 如果在某次迭代中沒有發生交換，則表示陣列已排序
+        if (swapped == 0)
             break;
-        }
     }
+}
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("排序前的陣列: \n");
+    printArray(arr, n);
+
+    optimizedBubbleSort(arr, n);
+
+    printf("排序後的陣列: \n");
+    printArray(arr, n);
+
+    return 0;
 }
